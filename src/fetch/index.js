@@ -301,9 +301,9 @@ export const addArticle = (params) => {
 
 
 // 查询作品章节
-export const getArticleList = (bookid , name) => {
+export const getArticleList = (bookid , name , articleid) => {
     return new Promise((resolve, reject) => {
-        request.get(`/getArticleList?bookid=${bookid}&name=${name}`).then(res => {
+        request.get(`/getArticleList?bookid=${bookid}&name=${name}&articleid=${articleid}`).then(res => {
             resolve(res);
         })
     })
@@ -346,13 +346,77 @@ export const booktitle = (params) => {
     })
 }
 
-// 获取要审核的数据
-export const getcheck = () => {
+// 新增章节
+export const addCheck = (params) => {
     return new Promise((resolve, reject) => {
-        request.get('/getcheck').then(response => {
+        request({
+            url: '/addCheck',
+            method: 'post',
+            data: params
+        }).then(res => {
+            resolve(res);
+        })
+    })
+}
+
+// 获取要审核的数据
+export const getcheck = (serialize) => {
+    return new Promise((resolve, reject) => {
+        request.get(`/getcheck?serialize=${serialize}`).then(response => {
             resolve(response);
         }, err => {
             reject(err);
+        })
+    })
+}
+
+// 审批作品
+export const checkBook = (params) => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: '/checkBook',
+            method: 'post',
+            data: params
+        }).then(res => {
+            resolve(res);
+        })
+    })
+}
+
+// 添加作者申请
+export const addRole = (params) => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: '/addRole',
+            method: 'post',
+            data: params
+        }).then(res => {
+            resolve(res);
+        })
+    })
+}
+
+
+// 获取要审核的数据
+export const getRole = (id) => {
+    return new Promise((resolve, reject) => {
+        request.get(`/getRole?role=${id}`).then(response => {
+            resolve(response);
+        }, err => {
+            reject(err);
+        })
+    })
+}
+
+// 修改用户角色
+export const changeRole = (params) => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: '/changeRole',
+            method: 'post',
+            data: params
+        }).then(res => {
+            resolve(res);
         })
     })
 }

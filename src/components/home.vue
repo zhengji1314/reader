@@ -22,10 +22,19 @@
         <el-menu-item index="/material">素材管理</el-menu-item>
        </el-submenu>
 
-        <el-menu-item index="/audit" :style="{width:isCollapse?'65px': '200px'}">
+<!--        <el-menu-item index="/audit" :style="{width:isCollapse?'65px': '200px'}">
           <i class="el-icon-location"></i>
           <span slot="title">审核管理</span>
-        </el-menu-item>
+        </el-menu-item> -->
+
+        <el-submenu index="/audit" :style="{width:isCollapse?'65px': '200px'}">
+            <template slot="title">
+           <i class="el-icon-menu"></i>
+           <span>审核管理</span>
+         </template>
+         <el-menu-item index="/audit">作品审核</el-menu-item>
+         <el-menu-item index="/apply">申请审核</el-menu-item>
+        </el-submenu>
 
         <el-menu-item index="/bookrack" :style="{width:isCollapse?'65px': '200px'}">
           <i class="el-icon-location"></i>

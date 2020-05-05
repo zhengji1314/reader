@@ -5,8 +5,8 @@
                 <el-input size='small' clearable style="width:150px;margin-right:10px" v-model="setbooklist"
                     placeholder="章节名称"></el-input>
                 <el-button size='small' type="primary" plain icon="el-icon-search" @click="getData()">查询</el-button>
-                <el-button size='small' style="float:right" plain type="primary" @click="addDataFn()">新增</el-button>
                 <el-button size='small' style="float:right" plain type="primary" @click="$router.back(-1)">返回</el-button>
+                <el-button size='small' style="float:right" plain type="primary" @click="addDataFn()">新增</el-button>
             </div>
             <div class="text item">
                 <el-table :data="articleList" size='small' stripe border style="width:100%;" height='calc(66vh)'>
@@ -54,8 +54,8 @@
                         <span v-if="addForm.serialize == '2'">已审核</span>
                         <span v-if="addForm.serialize == '3'">已驳回</span>
                     </el-form-item>
-                    <el-form-item label="驳回原因：" prop="err" style="margin-top: 20px;" v-if="addForm.serialize == '3'">
-                        <el-input v-model="addForm.err"></el-input>
+                    <el-form-item label="驳回原因：" prop="cause" style="margin-top: 20px;" v-if="addForm.serialize == '3'">
+                        <el-input v-model="addForm.cause" readonly></el-input>
                     </el-form-item>
                     <el-form-item label="内容：" prop="content">
                         <quillEditor v-model="addForm.content" style="height: calc(60vh);"></quillEditor>
@@ -78,7 +78,8 @@
         getArticleList,
         updataArticle,
         deleteArticle,
-        booktitle
+        booktitle,
+        addCheck
     } from "../fetch";
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
@@ -115,14 +116,6 @@
                             message: '标题长度介于5-30个字符'
                         }
                     ],
-                    content: [{
-                        required: true,
-                        message: '内容必填'
-                    }],
-                    channel_id: [{
-                        required: true,
-                        message: '频道必选'
-                    }]
                 },
             }
         },
@@ -135,6 +128,10 @@
         },
 
         methods: {
+            // 添加至审核数据
+            addCheckData(id) {
+
+            },
             // 生成目录
             directory(val){
                 if(val.length>=0) {
@@ -172,6 +169,7 @@
             addDataFn() {
                 this.addModelState = true
                 this.title = '新增章节'
+                this.addForm = {}
             },
             // 章节内容修改
             editor(row) {
@@ -183,6 +181,7 @@
                 this.addForm.content  = row.content
                 this.addForm.bookName  = row.bookName
                 this.addForm.serialize  = row.serialize
+                this.addForm.cause  = row.cause
 
             },
             //删除章节
@@ -220,13 +219,23 @@
                         bookid: this.id,
                         bookName: this.bookName,
                         title: this.addForm.title,
-                        content: this.addForm.content,
+                        content: this.addForm.content.substr(0,20),
                         serialize: val
                     }).then(res => {
                         console.log(res)
                         this.getData()
                         this.$message.success('保存成功')
                         this.addModelState = false
+                        addCheck({
+                            bookid : this.id,
+                            articleid : id,
+                            bookName : this.bookName,
+                            title: this.addForm.title,
+                            content: this.addForm.content,
+                            serialize: val
+                            }).then(value => {
+                                console.log(value)
+                            })
                         setTimeout(() =>{
                             this.directory(this.articleList)
                         }, 3000);

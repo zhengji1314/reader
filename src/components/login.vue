@@ -18,7 +18,10 @@
                     <el-form-item>
                         <el-button :loading="isActive" :disabled="isActive" style="width:100%;margin-left: -30px;margin-top: 10px;"
                             type="primary" @click="login('loginForm')">登录</el-button>
-                        <div style="text-align: center;margin-left:-70px" @click="mfzc">免费注册</div>
+                        <div style="text-align: center;margin-left:-70px" >
+                            <span @click="mfzc">免费注册</span>
+                            <span style="margin-left: 20px;" @click="zbdl">暂不登录</span>
+                        </div>
                     </el-form-item>
                 </el-form>
             </div>
@@ -152,6 +155,11 @@
             }
         },
         methods: {
+            // 暂不登录
+            zbdl() {
+                this.$router.push('/shouye')
+            },
+            // 打开注册页面
             mfzc() {
                 this.flag = false
                 this.zhuce = true

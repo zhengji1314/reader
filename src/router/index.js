@@ -42,9 +42,13 @@ const routes = [{
                     name: 'account',
                     component: resolve => require(['@/components/account'], resolve)
                 }, {
-                    path: '/audit', // 审核管理
+                    path: '/audit', // 作品审核  
                     name: 'audit',
                     component: resolve => require(['@/components/audit'], resolve)
+                }, {
+                    path: '/apply', // 申请审核  
+                    name: 'apply',
+                    component: resolve => require(['@/components/role'], resolve)
                 }, {
                     path: '/book', // 书籍信息
                     name: 'book',
@@ -74,7 +78,7 @@ const routes = [{
         router.beforeEach((to, from, next) => {
             var userinfo = window.localStorage.getItem('userInfo')
             // console.log(userinfo)
-            if (!userinfo && (to.path == '/bookrack' || to.path == '/bookList' || to.path == '/account' || to.path ==
+            if (!userinfo && (to.path == '/material' ||to.path == '/apply' ||to.path == '/bookrack' || to.path == '/bookList' || to.path == '/account' || to.path ==
                     '/audit')) {
                 return next('/login')
             }
